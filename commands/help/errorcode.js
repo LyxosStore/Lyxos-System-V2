@@ -10,7 +10,13 @@ setInterval(function() {
         });
 
         res.on('end', () => {
-            errorCodeList = JSON.parse(data)
+            try {
+                if(!data) {
+                    return
+                }
+
+                errorCodeList = JSON.parse(data)
+            } catch(error) {}
         });
 
     }).on('error', err => {

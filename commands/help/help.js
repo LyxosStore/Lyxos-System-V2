@@ -10,7 +10,13 @@ setInterval(function() {
         });
 
         res.on('end', () => {
-            helpMessageList = JSON.parse(data)
+            try {
+                if(!data) {
+                    return
+                }
+
+                helpMessageList = JSON.parse(data)
+            } catch(error) {}
         });
 
     }).on('error', err => {

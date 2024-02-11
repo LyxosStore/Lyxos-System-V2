@@ -6,6 +6,7 @@ const path = require('node:path');
 
 https = require('https');
 os = require('os')
+translatte = require('translatte');
 
 helpMessageList = JSON.parse("{}")
 errorCodeList = JSON.parse("{}")
