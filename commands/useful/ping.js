@@ -11,8 +11,10 @@ module.exports = {
         let apidown = 0
 
         while (apidown !== 10) {
-            https.get('https://api.cloudassets.eu/info', res => {
+            https.get('http://api.cloudassets.eu:6842/info', res => {
                 apidown = 10
+
+                console.log(res.statusCode)
 
                 if (res.statusCode == 200) {
                     lyxosPing = Math.abs(startTime - Date.now());

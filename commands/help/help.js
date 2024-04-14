@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
 setInterval(function() {
-    https.get('https://api.cloudassets.eu/gethelpmessages', res => {
+    https.get('http://api.cloudassets.eu:6842/gethelpmessages', res => {
         let data = '';
 
         res.on('data', (chunk) => {
@@ -11,12 +11,12 @@ setInterval(function() {
 
         res.on('end', () => {
             try {
-                if(!data) {
+                if (!data) {
                     return
                 }
 
                 helpMessageList = JSON.parse(data)
-            } catch(error) {}
+            } catch (error) {}
         });
 
     }).on('error', err => {
@@ -83,12 +83,10 @@ module.exports = {
                 .setFooter({ text: `Project Lyxos by: zImSkillz | Command Requested by: ${interaction.user.tag}`, iconURL: 'https://cdn.discordapp.com/attachments/950308582665125898/1062356266300743751/lyxos-new.png' });
         }
 
-        if(embed !== undefined) {
-            await interaction.reply(
-                {
-                    embeds: [embed]
-                }
-            )
+        if (embed !== undefined) {
+            await interaction.reply({
+                embeds: [embed]
+            })
         }
     }
 };
