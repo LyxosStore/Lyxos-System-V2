@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
 setInterval(function() {
-    https.get('http://api.cloudassets.eu:6842/geterrorcodes', res => {
+    https.get('https://api.cloudassets.eu/geterrorcodes', res => {
         let data = '';
 
         res.on('data', (chunk) => {

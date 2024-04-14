@@ -11,7 +11,7 @@ module.exports = {
         let apidown = 0
 
         while (apidown !== 10) {
-            https.get('http://api.cloudassets.eu:6842/info', res => {
+            https.get('https://api.cloudassets.eu/info', res => {
                 apidown = 10
 
                 console.log(res.statusCode)
