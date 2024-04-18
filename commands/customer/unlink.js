@@ -88,8 +88,9 @@ module.exports = {
                                 let hasRole = interaction.member.roles.cache.some(r => r.name.includes('lyxos') && r.id == script.role)
                                 let role = await interaction.guild.roles.cache.find(r => r.name.includes('lyxos') && r.id == script.role);
 
+                                console.log(`Removeing: ${interaction.user.id} | Role: ${script.role || 'err'} | Script: ${name}`)
+
                                 if (hasRole && role !== undefined) {
-                                    console.log(interaction.member.roles)
                                     interaction.member.roles.remove(role);
                                 }
 
