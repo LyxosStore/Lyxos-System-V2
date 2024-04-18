@@ -1,29 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
-setInterval(function() {
-    https.get('https://api.cloudassets.eu/geterrorcodes', res => {
-        let data = '';
-
-        res.on('data', (chunk) => {
-            data += chunk;
-        });
-
-        res.on('end', () => {
-            try {
-                if (!data) {
-                    return
-                }
-
-                errorCodeList = JSON.parse(data)
-            } catch (error) {}
-        });
-
-    }).on('error', err => {
-        console.log('Error while getting error codes: ', err.message);
-    });
-}, 5000);
-
 function getTokenIdentifier(token, identifier) {
     var token = token
     var identifier = identifier

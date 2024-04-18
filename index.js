@@ -11,6 +11,10 @@ translatte = require('translatte');
 helpMessageList = JSON.parse("{}")
 errorCodeList = JSON.parse("{}")
 
+cachedScripts = []
+
+claimedAssets = JSON.parse("{}")
+
 require('dotenv').config()
 
 sysPackage = require('./package.json');
@@ -58,6 +62,80 @@ createProgressBar = function(percentage) {
     return `${filledBar}${emptyBar} ${percentage}%`;
 }
 
+getScript = function(script) {
+    let foundScript = []
+
+    for (var i in cachedScripts) {
+        if (cachedScripts[i].script == script) {
+            foundScript = cachedScripts[i]
+        }
+    }
+
+    return foundScript
+}
+
+// Intervals
+setInterval(function() {
+    console.log("Getting Error & Help Messages..")
+
+    https.get('https://api.cloudassets.eu/geterrorcodes', res => {
+        let data = '';
+
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        res.on('end', () => {
+            try {
+                if (!data) {
+                    return
+                }
+
+                errorCodeList = JSON.parse(data)
+            } catch (error) {}
+        });
+
+    }).on('error', err => {
+        console.log('Error while getting error codes: ', err.message);
+    });
+
+    https.get('https://api.cloudassets.eu/gethelpmessages', res => {
+        let data = '';
+
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        res.on('end', () => {
+            try {
+                if (!data) {
+                    return
+                }
+
+                helpMessageList = JSON.parse(data)
+            } catch (error) {}
+        });
+
+    }).on('error', err => {
+        console.log('Error while getting help messages: ', err.message);
+    });
+}, 20000)
+
+// Getting Claimed Assets & Scripts
+setInterval(function() {
+    sql.query("SELECT * FROM scripts", function(err, result, fields) {
+        if (err) throw err;
+
+        cachedScripts = result
+    });
+
+    sql.query("SELECT * FROM userClaimedData", function(err, result, fields) {
+        if (err) throw err;
+
+        claimedAssets = result
+    });
+}, 5000)
+
 // Creating Client
 client = new Client({
     intents: [
@@ -88,6 +166,9 @@ client = new Client({
         Partials.ThreadMember,
     ],
 });
+
+// Command Cooldowns
+client.cooldowns = new Collection();
 
 // Manager Register
 const managerPath = path.join(__dirname, 'manager');

@@ -1,29 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
-setInterval(function() {
-    https.get('https://api.cloudassets.eu/gethelpmessages', res => {
-        let data = '';
-
-        res.on('data', (chunk) => {
-            data += chunk;
-        });
-
-        res.on('end', () => {
-            try {
-                if (!data) {
-                    return
-                }
-
-                helpMessageList = JSON.parse(data)
-            } catch (error) {}
-        });
-
-    }).on('error', err => {
-        console.log('Error while getting help messages: ', err.message);
-    });
-}, 5000);
-
 function getTokenIdentifier(token, identifier) {
     var token = token
     var identifier = identifier
