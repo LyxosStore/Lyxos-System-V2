@@ -97,6 +97,27 @@ module.exports = {
                             } catch (err) { console.error(err) }
                         }
 
+                        // Try removing customer role if no assets have been claimed
+                        try {
+                            let customerRole = interaction.member.guild.roles.cache.find(r => r.name == process.env.DISCORD_CUSTOMER_ROLE)
+                            let hasRole = interaction.member.roles.cache.some(r => r.name == process.env.DISCORD_CUSTOMER_ROLE)
+
+                            if (hasRole && customerRole !== undefined) {
+                                let hasAnyScript = false
+
+                                for (var i in claimedAssets) {
+                                    // ugly, ik
+                                    if (claimedAssets[i] !== undefined && claimedAssets[i].claimer !== undefined && claimedAssets[i].claimer == interaction.user.id) {
+                                        hasAnyScript = true
+                                    }
+                                }
+
+                                if (!hasAnyScript) {
+                                    interaction.member.roles.remove(customerRole);
+                                }
+                            }
+                        } catch (err) { console.error(err) }
+
                         return interaction.reply({
                             embeds: [embed],
                             ephemeral: true

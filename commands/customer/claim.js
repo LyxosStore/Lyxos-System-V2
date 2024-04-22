@@ -91,6 +91,16 @@ module.exports = {
                         }
 
                     } catch (err) { console.error(err) }
+
+                    // Try Adding Customer Role
+                    try {
+                        let customerRole = interaction.member.guild.roles.cache.find(r => r.name == process.env.DISCORD_CUSTOMER_ROLE)
+                        let hasRole = interaction.member.roles.cache.some(r => r.name == process.env.DISCORD_CUSTOMER_ROLE)
+
+                        if (!hasRole && customerRole !== undefined) {
+                            interaction.member.roles.add(customerRole);
+                        }
+                    } catch (err) { console.error(err) }
                 }
 
                 return interaction.reply({
