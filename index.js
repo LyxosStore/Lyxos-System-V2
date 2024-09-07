@@ -1,6 +1,6 @@
 // Require necessary classes/"scripts"
 
-const { REST, Routes, Client, Collection, Partials, GatewayIntentBits } = require('discord.js');
+const { REST, Routes, Client, EmbedBuilder, Collection, Partials, GatewayIntentBits } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -74,6 +74,29 @@ getScript = function(script) {
     return foundScript
 }
 
+// Embed Base
+const embedBase = new EmbedBuilder()
+    .setColor(0xFF0000)
+    .setTitle('Project Lyxos')
+    .setDescription(`-/- (no data given)`)
+    .setTimestamp()
+    .setThumbnail("https://assets.cloudassets.eu/lyxos/logo.png")
+    .setFooter({
+        text: `Project Lyxos by: zImSkillz`,
+        iconURL: 'https://assets.cloudassets.eu/lyxos/logo.png'
+    });
+
+// Could be better but I'm fucking lazy
+getEmbedBase = function() {
+    const newEmbed = new EmbedBuilder()
+
+    Object.assign(newEmbed.data, embedBase.data)
+
+    newEmbed.setTimestamp()
+
+    return newEmbed
+}
+
 // Intervals
 setInterval(function() {
     console.log("Getting Error & Help Messages..")
@@ -121,6 +144,19 @@ setInterval(function() {
     });
 }, 20000)
 
+// Cached Tickets
+cachedTickets = {}
+
+setInterval(function() {
+    try {
+        fs.writeFile('transcripts.json', JSON.stringify(cachedTickets, null, 4), err => {
+            if (err) {
+                return console.error(err);
+            }
+        });
+    } catch (err) { return console.error(err) }
+}, 30 * 1000)
+
 // Getting Claimed Assets & Scripts
 setInterval(function() {
     sql.query("SELECT * FROM scripts", function(err, result, fields) {
@@ -135,6 +171,15 @@ setInterval(function() {
         claimedAssets = result
     });
 }, 5000)
+
+// Get Time Function
+getTime = function() {
+    let time = new Date();
+    time.setHours(time.getHours() + 1);
+    let timeFormatted = time.toISOString().replace(/T/, '-').replace(/\..+/, '');
+
+    return timeFormatted;
+}
 
 // Creating Client
 client = new Client({

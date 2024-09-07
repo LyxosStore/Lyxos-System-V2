@@ -5,6 +5,19 @@ module.exports = {
     execute: async(interaction) => {
         let client = interaction.client;
 
+        if (interaction.type == InteractionType.MessageComponent) {
+            try {
+                await interactButton(interaction.customId, interaction)
+
+            } catch (err) {
+                console.error(err)
+
+                interaction.reply({ content: "A problem was encountered while useing the interaction! Please try again.", ephemeral: true })
+            }
+
+            return
+        }
+
         if (interaction.type == InteractionType.ApplicationCommand) {
             const command = interaction.client.commands.get(interaction.commandName);
 

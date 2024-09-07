@@ -1,4 +1,5 @@
 node_modules
+transcript-package/node_modules
 .env
 .env.example
 .npm-debug.log
