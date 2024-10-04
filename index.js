@@ -149,7 +149,7 @@ cachedTickets = {}
 
 setInterval(function() {
     try {
-        fs.writeFile('transcripts.json', JSON.stringify(cachedTickets, null, 4), err => {
+        fs.writeFile('data/transcripts.json', JSON.stringify(cachedTickets, null, 4), err => {
             if (err) {
                 return console.error(err);
             }

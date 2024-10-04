@@ -265,7 +265,7 @@ function deleteTicket(interaction) {
     }, 2500);
 }
 
-fs.readFile('transcripts.json', 'utf8', (err, data) => {
+fs.readFile('data/transcripts.json', 'utf8', (err, data) => {
     if (err) {
         console.error(err);
         return;

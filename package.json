@@ -1,6 +1,6 @@
 {
     "name": "lyxos-system-v2",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "description": "Discord Bot for Lyxos Store",
     "main": "index.js",
     "scripts": {
