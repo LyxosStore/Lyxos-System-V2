@@ -299,11 +299,13 @@ async function getSavedMessages(channel) {
         const msgId = id
 
         if (msgId) {
-            let message = await channel.messages.fetch(
-                cachedTickets[channelId].messages[msgId]
-            )
+            try {
+                let message = await channel.messages.fetch(
+                    cachedTickets[channelId].messages[msgId]
+                )
 
-            collectedMessages.set(String(msgId), message);
+                collectedMessages.set(String(msgId), message);
+            } catch (err) { console.error(`[ERROR]: ${channelId} ${msgId}`, err) }
         }
     }
 
